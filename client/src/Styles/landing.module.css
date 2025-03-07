@@ -1,0 +1,12 @@
+.landing_page > *  {
+    padding: 25px;
+}
+.greeting_banner {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.greeting_msg {
+    max-width: 600px;
+}

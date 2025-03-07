@@ -1,0 +1,10 @@
+.landing_search_bar {
+    bordeR: 1px solid red;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+}
+.landing_search_bar input {
+    font-size: 25px;
+    width: 100%;
+}
