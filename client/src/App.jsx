@@ -1,4 +1,5 @@
 import React from 'react'
+import "./App.css"
 import {createRoutesFromElements, createBrowserRouter, Navigate, Router, Route, RouterProvider } from "react-router-dom"
 import RootLayout from './Wrappers/RootLayout'
 import Landing from './Pages/Landing'
