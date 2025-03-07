@@ -1,0 +1,29 @@
+
+.root_layout {
+    position: relative;
+    height: 100vh;
+    z-index: 10;
+}
+.root_header {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: vaR(--p-text)
+}
+.logo_container {
+    display: flex;
+    gap: 10px;
+}
+.logo_img {
+    height: 30px;
+}
+.logo_text {
+    font-size: 1em;
+    font-weight: bolder;
+    
+}
+.root_nav {
+    display: flex;
+    gap: 20px;
+}
