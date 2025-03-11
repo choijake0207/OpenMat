@@ -1,9 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define("User",  {
+        id: {
+            primaryKey: true,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4
+
+        },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true
+            unique: true,
+            validate: {
+                isEmail: true
+            }
         },
         firstName: {
             type: DataTypes.STRING,
@@ -17,13 +26,19 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        role: {
+            type: DataTypes.ENUM("participant", "host"),
+            allowNull: false,
+            defaultValue: "participant"
+        },
         belt: {
-            type: DataTypes.STRING,
+            type: DataTypes.ENUM("White", "Blue", "Purple", "Brown", "Black", "Unranked"),
             allowNull: false,
         },
         affiliation: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
+            defaultValue: "Nomad"
         },
         bio: {
             type: DataTypes.STRING,
