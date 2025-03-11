@@ -5,7 +5,7 @@ const {Server} = require("socket.io")
 const db = require("./models")
 
 const app = express()
-app.use(cors)
+app.use(cors())
 app.use(express.json())
 
 // app and socket shared server
@@ -16,6 +16,14 @@ const io = new Server(server, {
         methods: ["GET, POST"]
     }
 })
+
+
+// router mounts
+const userRouter = require("./routes/userRouter")
+app.use("/user", userRouter)
+
+
+
 
 // socket set up goes here
 
