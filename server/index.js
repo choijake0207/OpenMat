@@ -2,6 +2,7 @@ const express = require("express")
 const http = require("http")
 const cors = require("cors")
 const {Server} = require("socket.io")
+const db = require("./models")
 
 const app = express()
 app.use(cors)
@@ -18,9 +19,11 @@ const io = new Server(server, {
 
 // socket set up goes here
 
-
-server.listen(3005, () => {
-    console.log("server listening to port 3005")
+db.sequelize.sync().then(() => {
+    server.listen(3005, () => {
+        console.log("server listening to port 3005")
+    })    
 })
+
 
 
