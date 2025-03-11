@@ -25,7 +25,6 @@ router.post("/register", async (req, res) => {
         belt: userData.belt ?? undefined,
         affiliation: userData.affiliation ?? undefined,
         bio: userData.bio || null,
-        location: userData.location,
         pfp: userData.pfp || null,
     })
     console.log("created")
