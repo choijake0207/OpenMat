@@ -3,28 +3,30 @@ const router = express.Router()
 const {User} = require("../models")
 const bcrypt = require("bcrypt")
 const {sign} = require("jsonwebtoken")
+const multerUpload = require("../utils/multerUpload")
 require("dotenv").config()
 
-router.post("/register", async (req, res) => {
-   const {userData} = req.body
+router.post("/register", multerUpload("pfp").single("pfp"), async (req, res) => {
    try {
+    const {email, password, firstName, lastName, belt, affiliation, bio} = req.body
     // check if user exists
     const exists = await User.findOne({where: {
-        email: userData.email
+        email: email
     }})
     if (exists) {
         return res.status(400).json({error: "An account with that email already exists"})
     }
-    const hashedPassword = await bcrypt.hash(userData.password, 10)
+    const pfpURL = req.file ? req.file.path : null
+    const hashedPassword = await bcrypt.hash(password, 10)
     const newUser = await User.create({
-        email: userData.email,
-        firstName: userData.firstName,
-        lastName: userData.lastName,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
         password: hashedPassword,
-        belt: userData.belt,
-        affiliation: userData.affiliation ?? undefined,
-        bio: userData.bio || null,
-        pfp: userData.pfp || null,
+        belt: belt,
+        affiliation: affiliation ?? undefined,
+        bio: bio || null,
+        pfp: pfpURL,
     })
     const accessToken = sign({
         id: newUser.id, 
