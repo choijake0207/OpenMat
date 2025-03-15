@@ -7,23 +7,23 @@ export default function SignUp({closeModal}) {
 
     const [formStep, setFormStep] = useState(1)
 
-    const [formData, setFormData] = useState({
+    const [data, setData] = useState({
         email: "",
         firstName: "",
         lastName: "",
         password: "",
         belt: "",
         affiliation: "",
-        location: "",
+        pfp: null
     })
 
     const step1Valid = 
-        formData.email !== "" &&
-        formData.firstName !== "" &&
-        formData.lastName !== "" &&
-        formData.password !== ""
+        data.email !== "" &&
+        data.firstName !== "" &&
+        data.lastName !== "" &&
+        data.password !== ""
 
-    const step2Valid = formData.belt !== ""
+    const step2Valid = data.belt !== ""
         
     const nextStep = (e) => {
         e.preventDefault()
@@ -35,12 +35,13 @@ export default function SignUp({closeModal}) {
     }
 
     const handleChange = (e) => {
-        const {name, value} = e.target
-        setFormData(prev => ({
+        const {name, value, type, files} = e.target
+        setData(prev => ({
             ...prev,
-            [name]: value
+            [name]: type === "file" ? files[0] : value
         }))
     }
+  
 
     const handleClose = (e) => {
         e.preventDefault()
@@ -51,6 +52,14 @@ export default function SignUp({closeModal}) {
 
     const handleRegister = async(e) => {
         e.preventDefault()
+        const formData = new FormData()
+        formData.append("pfp", data.pfp)
+        formData.append("email", data.email)
+        formData.append("firstName", data.firstName)
+        formData.append("lastName", data.lastName)
+        formData.append("password", data.password)
+        formData.append("belt", data.belt)
+        formData.append("affiliation", data.affiliation)
         try {
             register(formData)
         } catch (error) {
@@ -74,7 +83,7 @@ export default function SignUp({closeModal}) {
                         <input 
                             type="email" 
                             name="email"
-                            value={formData.email}
+                            value={data.email}
                             onChange={(e) => handleChange(e)}
                             required
                         />
@@ -85,7 +94,7 @@ export default function SignUp({closeModal}) {
                             <input 
                                 type="text" 
                                 name="firstName"
-                                value={formData.firstName}
+                                value={data.firstName}
                                 onChange={(e) => handleChange(e)}
                                 required
                             />
@@ -95,7 +104,7 @@ export default function SignUp({closeModal}) {
                             <input 
                                 type="text" 
                                 name="lastName"
-                                value={formData.lastName}
+                                value={data.lastName}
                                 onChange={(e) => handleChange(e)}
                                 required
                             />
@@ -106,7 +115,7 @@ export default function SignUp({closeModal}) {
                         <input
                             type="password"
                             name="password"
-                            value={formData.password}
+                            value={data.password}
                             onChange={(e) => handleChange(e)}
                             required
                         />
@@ -123,7 +132,7 @@ export default function SignUp({closeModal}) {
                             type="text" 
                             placeholder="Gracie Barra, 10th Planet, etc..."
                             name="affiliation"
-                            value={formData.affiliation}
+                            value={data.affiliation}
                             onChange={(e) => handleChange(e)}
                         />
                     </label>
@@ -131,7 +140,7 @@ export default function SignUp({closeModal}) {
                         Belt 
                         <select
                             name="belt"
-                            value={formData.belt}
+                            value={data.belt}
                             onChange={(e) => handleChange(e)}
                             required
                         >   
@@ -157,16 +166,20 @@ export default function SignUp({closeModal}) {
                         Bio (optional)
                         <textarea
                             name="bio"
-                            value={formData.bio}
+                            value={data.bio}
                             onChange={(e) => handleChange(e)}
                         />
                     </label>
                     <label>
-                        Upload a profile picture
+                        Upload a profile picture (optional)
+                        <br></br>
+                        Max: 5mb
                         <input 
-                            type="text"
+                            type="file"
+                            accept='image/*'
+                            multiple={false}
                             name="pfp"
-                            value={formData.pfp}
+                            value={data.pfp}
                             onChange={(e) => handleChange(e)}
                         />
                     </label>
