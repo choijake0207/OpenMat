@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playwrite+IT+Moderna:wght@100..400&display=swap');
 :root {
     --p-text: rgb(66, 66, 66);
+    --bg: white;
+    --primary-theme: rgb(231, 62, 101);
 }
 
 
