@@ -14,7 +14,7 @@ export default function RootLayout() {
     <div className={styles.root_layout}>
         <header className={styles.root_header}>
             <div className={styles.logo_container}>
-                <img src="../../public/OpenMatLogo.png" className={styles.logo_img} alt="logo"/>
+                <img src="/OpenMatLogo.png" className={styles.logo_img} alt="logo"/>
                 <p className={styles.logo_text}>OpenMat</p>
             </div>
             <nav className={styles.root_nav}>
