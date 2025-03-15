@@ -48,6 +48,30 @@ const authStore = (set) => ({
         } catch (error) {
             console.error
         }
+    },
+    logout: () => {
+        localStorage.removeItem("accessToken")
+        set((authStore) => ({auth: {
+            isAuthorized: false,
+            role: "",
+            id: "",
+            firstName: ""
+        }}))
+    },
+    login: async (formData) => {
+        try {
+            const response = await axios.post(`${API_URL}/user/login`, formData)
+            localStorage.setItem("accessToken", response.data.accessToken)
+            set((authStore) => ({auth: {
+                isAuthorized: true,
+                role: response.data.user.role,
+                id: response.data.user.id,
+                firstName: response.data.user.firstName
+            }}))
+            return response.data
+        } catch (error) {
+            console.error(error)
+        }
     }
 }) 
 
