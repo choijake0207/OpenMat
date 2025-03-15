@@ -3,7 +3,7 @@ import styles from "../Styles/signUp.module.css"
 import {X} from "phosphor-react"
 import { useAuthStore } from '../Utils/AuthStore'
 
-export default function SignUp({closeModal}) {
+export default function SignUp({closeModal, switchModal}) {
 
     const [formStep, setFormStep] = useState(1)
     const [submitting, setSubmitting] = useState(false)
@@ -47,6 +47,12 @@ export default function SignUp({closeModal}) {
     const handleClose = (e) => {
         e.preventDefault()
         closeModal()
+    }
+
+    const handleSwitch = (e) => {
+        e.preventDefault()
+        closeModal()
+        switchModal()
     }
 
     const register = useAuthStore(store => store.register) 
@@ -196,7 +202,9 @@ export default function SignUp({closeModal}) {
             }
 
             <div className={styles.form_footer}>
-                <p>Already Have An Account? Login here!</p>
+                <p>
+                    Already Have An Account? Login <button className={styles.redirect_modal_link} onClick={(e) => handleSwitch(e)}>here!</button>
+                </p>
             </div>
         </form>
     </div>
