@@ -6,7 +6,7 @@ import { useAuthStore } from '../Utils/AuthStore'
 export default function SignUp({closeModal}) {
 
     const [formStep, setFormStep] = useState(1)
-
+    const [submitting, setSubmitting] = useState(false)
     const [data, setData] = useState({
         email: "",
         firstName: "",
@@ -14,6 +14,7 @@ export default function SignUp({closeModal}) {
         password: "",
         belt: "",
         affiliation: "",
+        bio: "",
         pfp: null
     })
 
@@ -59,11 +60,16 @@ export default function SignUp({closeModal}) {
         formData.append("lastName", data.lastName)
         formData.append("password", data.password)
         formData.append("belt", data.belt)
+        formData.append("bio", data.bio)
         formData.append("affiliation", data.affiliation)
         try {
-            register(formData)
+            setSubmitting(true)
+            const response = await register(formData)
+            closeModal()
         } catch (error) {
             console.error(error)
+        } finally {
+            setSubmitting(false)
         }
     } 
 
@@ -179,13 +185,12 @@ export default function SignUp({closeModal}) {
                             accept='image/*'
                             multiple={false}
                             name="pfp"
-                            value={data.pfp}
                             onChange={(e) => handleChange(e)}
                         />
                     </label>
                     <div className={styles.step_btn_container}>
                         <button className={styles.prev_btn} onClick={(e) => prevStep(e)}>Go Back</button>
-                        <button className={styles.next_or_submit_btn} onClick={(e) => handleRegister(e)}>Submit</button>
+                        <button className={styles.next_or_submit_btn} onClick={(e) => handleRegister(e)} disabled={submitting}>Submit</button>
                     </div>
                 </div>
             }
