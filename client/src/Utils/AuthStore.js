@@ -30,6 +30,25 @@ const authStore = (set) => ({
             console.error(error)
         }
     },
+    authCheck: async() => {
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+            const response = await axios.get(`${API_URL}/user/authorize`, {
+                headers: {
+                    "Authorization": `Bearer ${accessToken}`
+                }
+            })
+            set((authStore) => ({auth: {
+                isAuthorized: true,
+                role: response.data.role,
+                id: response.data.id,
+                firstName: response.data.firstName
+            }}))
+            console.log(auth)
+        } catch (error) {
+            console.error
+        }
+    }
 }) 
 
 export const useAuthStore = create(authStore)
