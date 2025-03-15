@@ -50,6 +50,40 @@ router.post("/register", multerUpload("pfp").single("pfp"), async (req, res) => 
    }
 })
 
+router.post("/login", async(req, res) => {
+    try {
+        const {email, password} = req.body
+        const exists = await User.findOne({
+            where: {
+                email: email
+            },
+            attributes: ["role", "firstName", "id", "password"]
+        })
+        if (!exists) {
+            return res.status(404).json({error: "Email Not Found"})
+        }
+        const match = await bcrypt.compare(password, exists.password)
+        if (!match) {
+            return res.status(401).json({error: "Incorrect email and password combination"})
+        }
+        const accessToken = sign({
+            id: exists.id,
+            firstName: exists.firstName,
+        }, process.env.JWT_SECRET)
+        res.json({
+            message: "Logged In Succesfully",
+            user: {
+                role: exists.role,
+                id: exists.id,
+                firstName: exists.firstName
+            },
+            accessToken: accessToken
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({error: "There was an error logging in"}, error)
+    }
+})
 
 router.get("/authorize", tokenCheck, async(req, res) => {
     try {
