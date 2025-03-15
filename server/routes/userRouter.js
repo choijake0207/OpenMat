@@ -27,6 +27,7 @@ router.post("/register", multerUpload("pfp").single("pfp"), async (req, res) => 
         affiliation: affiliation ?? undefined,
         bio: bio || null,
         pfp: pfpURL,
+        role: "participant"
     })
     const accessToken = sign({
         id: newUser.id, 
@@ -44,7 +45,7 @@ router.post("/register", multerUpload("pfp").single("pfp"), async (req, res) => 
     })
    } catch (error) {
         console.error(error)
-        res.status(500).json({error: "There was an issue creating your account", error})
+        res.status(500).json({error: "There was an issue creating your account"}, error)
    }
 })
 
