@@ -4,6 +4,7 @@ const {User} = require("../models")
 const bcrypt = require("bcrypt")
 const {sign} = require("jsonwebtoken")
 const multerUpload = require("../utils/multerUpload")
+const tokenCheck = require("../utils/tokenCheck")
 require("dotenv").config()
 
 router.post("/register", multerUpload("pfp").single("pfp"), async (req, res) => {
@@ -48,5 +49,27 @@ router.post("/register", multerUpload("pfp").single("pfp"), async (req, res) => 
         res.status(500).json({error: "There was an issue creating your account"}, error)
    }
 })
+
+
+router.get("/authorize", tokenCheck, async(req, res) => {
+    try {
+        const user = await User.findOne({
+            where: {
+                id: req.user.id
+            },
+            attributes: ["role", "id", "firstName"]
+        })
+        if (!user) {
+            return res.status(404).json({error: "Account Does Not Exist"})
+        }
+        res.json(user)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({error: "Error Authetnicating User"}, error)
+    }
+})
+
+
+
 
 module.exports = router
