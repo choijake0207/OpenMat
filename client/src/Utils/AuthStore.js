@@ -10,19 +10,24 @@ const authStore = (set) => ({
         id: "",
         firstName: ""
     },
-    register: async(userData) => {
+    register: async(formData) => {
         try {
-            const response = await axios.post(`${API_URL}/user/register`, {userData: userData})
-            localStorage.setItem("accessToken", response.accessToken)
+            const response = await axios.post(`${API_URL}/user/register`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+
+            localStorage.setItem("accessToken", response.data.accessToken)
             set((authStore) => ({auth: {
                 isAuthorized: true,
-                role: response.user.role,
-                id: response.user.id,
-                firstName: response.user.firstName
+                role: response.data.user.role,
+                id: response.data.user.id,
+                firstName: response.data.user.firstName
             }}))
             return response.data
         } catch (error) {
-            console.error(response.error)
+            console.error(error)
         }
     },
 }) 
