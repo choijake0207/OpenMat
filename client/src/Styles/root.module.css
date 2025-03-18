@@ -25,7 +25,6 @@
 .logo_text {
     font-size: 1em;
     font-weight: bolder;
-    
 }
 .root_nav {
     display: flex;
@@ -33,7 +32,6 @@
     position: relative;
     border: 1px solid red;
 }
-
 .user_links {
     display: flex;
     align-items: center;
@@ -67,6 +65,22 @@
     top: 50px;
     right: 15px;
 }
+.mobile_nav_600 {
+    display: none;
+    width: 100%;
+    padding: 7px;
+}
+.mobile_nav_600 a {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+.mobile_nav_600 a > svg {
+    font-size: 25px;
+}
 
 @media (max-width: 800px) {
     .root_nav {
@@ -78,4 +92,22 @@
     .logo_container, .user_links {
         width: fit-content;
     }
+    .logo_text {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .root_header {
+        display: none;
+    }
+    .mobile_nav_600 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        position: absolute;
+        bottom: 0;
+        border: 1px solid red;
+    }
+
 }
