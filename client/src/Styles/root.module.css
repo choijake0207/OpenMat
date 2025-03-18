@@ -8,12 +8,16 @@
     padding: 15px;
     display: flex;
     align-items: center;
+    color: vaR(--p-text);
+    border: 1px solid blue;
     justify-content: space-between;
-    color: vaR(--p-text)
+    position: relative;
 }
 .logo_container {
     display: flex;
     gap: 10px;
+    width: 250px;
+    border: 1px solid red;
 }
 .logo_img {
     height: 30px;
@@ -26,4 +30,52 @@
 .root_nav {
     display: flex;
     gap: 20px;
+    position: relative;
+    border: 1px solid red;
+}
+
+.user_links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    width: 250px;
+    border: 1px solid red;
+}
+.chat_link svg {
+    font-size: 1.5em;
+    transform: translateY(2px);
+}
+.nav_username_btn {
+    font-size: 1em;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 25px;
+    border: 1px solid gray;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.nav_username_btn svg{
+    font-size: 1.5em;
+}
+.nav_user_modal {
+    position: absolute;
+    border: 1px solid red;
+    top: 50px;
+    right: 15px;
+}
+
+@media (max-width: 800px) {
+    .root_nav {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -50px;
+    }
+    .logo_container, .user_links {
+        width: fit-content;
+    }
 }
