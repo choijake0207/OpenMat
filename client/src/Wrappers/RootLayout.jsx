@@ -96,9 +96,18 @@ export default function RootLayout() {
         <nav className={styles.mobile_nav_600}>
             <NavLink to="/"><House/> Home</NavLink>
             <NavLink to="/explore"><MagnifyingGlass/> Explore</NavLink>
-            <NavLink><ChatCircleDots/> Messages</NavLink>
-            <NavLink><User/> Profile</NavLink>
-            <NavLink><BookmarkSimple/> Saved</NavLink>
+            {
+                auth.isAuthorized ? 
+                    <>
+                    <NavLink><ChatCircleDots/> Messages</NavLink>
+                        <NavLink><User/> Profile</NavLink>
+                        <NavLink><BookmarkSimple/> Saved</NavLink>
+                    </>
+                :
+                    <NavLink><User/> Log In</NavLink>
+
+            }
+          
         </nav>
     </div>
   )
