@@ -1,12 +1,17 @@
 import React, {useState} from 'react'
+import { useNavigate } from 'react-router'
 import styles from "../Styles/signUp.module.css"
 import {X} from "phosphor-react"
 import { useAuthStore } from '../Utils/AuthStore'
 
-export default function SignUpModal({closeModal, switchModal}) {
+export default function SignUpModal({closeModal, switchModal, pageMode}) {
+
+    const navigate = useNavigate()
 
     const [formStep, setFormStep] = useState(1)
+
     const [submitting, setSubmitting] = useState(false)
+    
     const [data, setData] = useState({
         email: "",
         firstName: "",
@@ -51,7 +56,9 @@ export default function SignUpModal({closeModal, switchModal}) {
 
     const handleSwitch = (e) => {
         e.preventDefault()
-        closeModal()
+        if (!pageMode) {
+            closeModal()
+        }
         switchModal()
     }
 
@@ -71,24 +78,28 @@ export default function SignUpModal({closeModal, switchModal}) {
         try {
             setSubmitting(true)
             const response = await register(formData)
-            closeModal()
         } catch (error) {
             console.error(error)
         } finally {
             setSubmitting(false)
+            if (!pageMode) {
+                closeModal()
+            } else {
+                navigate("/")
+            }
         }
     } 
 
 
   return (
-    <div className={styles.modal_wrap}>
+    <div className={`${styles.modal_wrap} ${pageMode ? styles.page_mode : ""}`}>
         <form className={styles.signup_modal_form}>
 
            {formStep === 1 && 
                 <div className={styles.step_1}>
                     <div className={styles.form_header}>
                         <h1>Sign up to start exploring</h1>
-                        <button className={styles.close_modal_btn} onClick={(e) => handleClose(e)}><X/></button>
+                        {!pageMode && <button className={styles.close_modal_btn} onClick={(e) => handleClose(e)}><X/></button>}
                     </div>
                     <label className={styles.email_field}>
                         Email

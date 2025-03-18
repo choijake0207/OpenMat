@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
+import { useNavigate } from 'react-router'
 import styles from "../Styles/login.module.css"
 import { X } from 'phosphor-react'
 import {useAuthStore} from "../Utils/AuthStore"
 
-export default function LoginModal({closeModal, switchModal}) {
+export default function LoginModal({closeModal, switchModal, pageMode}) {
 
     const [submitting, setSubmitting] = useState(false)
 
@@ -11,6 +12,8 @@ export default function LoginModal({closeModal, switchModal}) {
         email: "",
         password: ""
     })
+
+    const navigate = useNavigate()
 
     const handleClose = (e) => {
         e.preventDefault()
@@ -27,7 +30,9 @@ export default function LoginModal({closeModal, switchModal}) {
     
     const handleSwitch = (e) => {
         e.preventDefault()
-        closeModal()
+        if(!pageMode) {
+            closeModal()
+        }
         switchModal()
     }
     
@@ -41,17 +46,21 @@ export default function LoginModal({closeModal, switchModal}) {
             console.error
         } finally {
             setSubmitting(false)
-            closeModal()
+            if (!pageMode) {
+                closeModal()
+            } else {
+                navigate("/")
+            }
         }
     }
  
 
   return (
-    <div className={styles.modal_wrap}>
+    <div className={`${styles.modal_wrap} ${pageMode ? styles.page_mode : ""}`}>
         <form className={styles.login_modal_form}>
             <div className={styles.form_header}>
                     <h1>Sign up to start exploring</h1>
-                    <button className={styles.close_modal_btn} onClick={(e) => handleClose(e)}><X/></button>
+                    {!pageMode && <button className={styles.close_modal_btn} onClick={(e) => handleClose(e)}><X/></button>}
             </div>
             <label>
                 Email
