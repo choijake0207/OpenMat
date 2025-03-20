@@ -62,9 +62,38 @@
 .nav_user_modal {
     position: absolute;
     border: 1px solid red;
+    display: flex;
+    flex-direction: column;
     top: 50px;
     right: 15px;
 }
+.nav_user_modal a, .nav_user_modal button {
+    border: none;
+    padding: 5px;
+    width: 125px;
+    font-size: 13px;
+    background: var(--bg);
+    justify-content: center;
+    border: 1px solid red;
+    height: 30px;
+    text-align: left;
+    color: var(--p-text);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+/* Shared Page Layout */
+.page_layout {
+    border: 1px solid red;
+    height: 100%;
+    padding: 25px;
+}
+
+
+/* Mobile Nav Styles */
+
 .mobile_nav_600 {
     display: none;
     width: 100%;
@@ -83,18 +112,13 @@
 }
 
 @media (max-width: 800px) {
-    .root_nav {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: -50px;
-    }
-    .logo_container, .user_links {
-        width: fit-content;
-    }
-    .logo_text {
+    .logo_text, .chat_link, .host_link {
         display: none;
     }
+    .user_links, .logo_container {
+        width: 100px;
+    }
+    
 }
 
 @media (max-width: 600px) {
