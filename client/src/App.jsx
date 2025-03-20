@@ -8,7 +8,7 @@ import Profile from './Pages/Profile'
 import Messages from './Pages/Messages'
 import Mats from './Pages/Mats'
 import Saved from './Pages/Saved'
-import Login from './Components/Login'
+import Login from './Pages/Login'
 
 
 const router = createBrowserRouter(
@@ -21,7 +21,7 @@ const router = createBrowserRouter(
 
       
       <Route path="/saved" element={<Saved/>}/>
-      <Route path="/profile" element={<Profile/>}/>
+      <Route path="/profile/:id" element={<Profile/>}/>
       <Route path="/messages" element={<Messages/>}/>
     </Route>
   )
