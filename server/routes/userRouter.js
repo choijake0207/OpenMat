@@ -7,10 +7,12 @@ const multerUpload = require("../utils/multerUpload")
 const tokenCheck = require("../utils/tokenCheck")
 require("dotenv").config()
 
+
+
+// User Register
 router.post("/register", multerUpload("pfp").single("pfp"), async (req, res) => {
    try {
     const {email, password, firstName, lastName, belt, affiliation, bio} = req.body
-    // check if user exists
     const exists = await User.findOne({where: {
         email: email
     }})
@@ -50,6 +52,8 @@ router.post("/register", multerUpload("pfp").single("pfp"), async (req, res) => 
    }
 })
 
+
+// User Login
 router.post("/login", async(req, res) => {
     try {
         const {email, password} = req.body
@@ -85,6 +89,8 @@ router.post("/login", async(req, res) => {
     }
 })
 
+
+// Auth Persist
 router.get("/authorize", tokenCheck, async(req, res) => {
     try {
         const user = await User.findOne({
@@ -100,6 +106,27 @@ router.get("/authorize", tokenCheck, async(req, res) => {
     } catch (error) {
         console.error(error)
         res.status(500).json({error: "Error Authetnicating User"}, error)
+    }
+})
+
+
+// User Profile 
+router.get("/user/:id", async(req, res) => {
+    try {
+        const id = req.params
+        const user = await User.findOne({
+            where: {
+                id: id
+            },
+            attributes: ["id", "email", "firstName", "lastName", "belt", "affiliation", "role", "bio", "pfp"]
+        })
+        if (!user) {
+            return res.status(404).json({error: "User Does Not Exist"})
+        }
+        res.json(user)
+    } catch (error) {
+        console.error(error) 
+        res.status(500).json({error: "Error Fetching User Profile"}, error)
     }
 })
 
