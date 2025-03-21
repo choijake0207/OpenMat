@@ -1,0 +1,131 @@
+.profile_page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: vaR(--bg);
+    height: 100%;
+}
+
+.user_column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+}
+.user_column > * {
+    padding: 15px;
+    width: 100%;
+}
+
+/* Banner */
+.profile_banner {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--light-border);
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.banner_details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.banner_pfp {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}
+.banner_affiliation {
+    font-size: 15px;
+}
+.banner_name {
+    font-weight: 500;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+.banner_belt {
+    font-size: 15px;
+}
+.banner_location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--s-text)
+}
+
+/* Account Info */
+.account_info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.account_info_heading {
+    font-weight: 500;
+}
+.hosting_widget {
+    border: 1px solid var(--light-border);
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    gap: 25px;
+    border-radius: 15px;
+    box-shadow: 3px 3px 10px rgb(207, 207, 207);
+}
+.hosting_msg {
+    font-size: 20px;
+    font-weight: 500;
+}
+.hosting_msg span {
+    font-size: 15px;
+}
+.host_logo {
+    height: 70px;
+    transform: scale(-1, 1)
+}
+.account_details {
+    display: flex;
+    flex-direction: column;
+}
+.account_details a {
+    padding: 5px;
+    padding-top: 15px;
+    border-bottom: 1px solid var(--light-border);
+    padding-bottom: 15px;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.link_labels {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.link_labels svg {
+    font-size: 25px;
+}
+
+.logout_btn {
+    border: 1px solid var(--light-border);
+    color: vaR(--s-text);
+    background: none;
+    font-size: 15px;
+    max-width: 300px;
+    padding: 7px;
+    width: 90%;
+    align-self: center;
+    transition: .2s;
+    cursor: pointer;
+}
+.logout_btn:hover {
+    border: 1px solid vaR(--primary-theme);
+    color: var(--primary-theme)
+}
+
+@media (max-width: 600px) {
+    
+}
