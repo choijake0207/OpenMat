@@ -43,7 +43,11 @@ router.post("/register", multerUpload("pfp").single("pfp"), async (req, res) => 
         user: {
             role: newUser.role,
             id: newUser.id,
-            firstName: newUser.firstName
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            affiliation: newUser.affiliation,
+            belt: newUser.belt,
+            pfp: newUser.pfp
         }
     })
    } catch (error) {
@@ -79,7 +83,11 @@ router.post("/login", async(req, res) => {
             user: {
                 role: exists.role,
                 id: exists.id,
-                firstName: exists.firstName
+                firstName: exists.firstName,
+                lastName: exists.lastName,
+                affiliation: exists.affiliation,
+                belt: exists.belt,
+                pfp: exists.pfp
             },
             accessToken: accessToken
         })
@@ -97,7 +105,7 @@ router.get("/authorize", tokenCheck, async(req, res) => {
             where: {
                 id: req.user.id
             },
-            attributes: ["role", "id", "firstName"]
+            attributes: ["role", "id", "firstName", "lastName", "affiliation", "belt", "pfp"]
         })
         if (!user) {
             return res.status(404).json({error: "Account Does Not Exist"})
@@ -111,9 +119,9 @@ router.get("/authorize", tokenCheck, async(req, res) => {
 
 
 // User Profile 
-router.get("/user/:id", async(req, res) => {
+router.get("/profile/:id", async(req, res) => {
     try {
-        const id = req.params
+        const {id} = req.params
         const user = await User.findOne({
             where: {
                 id: id
