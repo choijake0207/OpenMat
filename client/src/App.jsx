@@ -9,6 +9,7 @@ import Messages from './Pages/Messages'
 import Mats from './Pages/Mats'
 import Saved from './Pages/Saved'
 import Login from './Pages/Login'
+import HostSetUp from './Pages/HostSetUp'
 
 
 const router = createBrowserRouter(
@@ -16,10 +17,10 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootLayout/>}>
       <Route index element={<Landing/>}/>
       <Route path="/explore" element={<Explore/>}/>
-      <Route path="/mats" element={<Mats/>}/>
+      <Route path="/mats/:id" element={<Mats/>}/>
       <Route path="/login" element={<Login/>}/>
 
-      
+      <Route path="/host/setup" element={<HostSetUp/>}/>
       <Route path="/saved" element={<Saved/>}/>
       <Route path="/profile/:id" element={<Profile/>}/>
       <Route path="/messages" element={<Messages/>}/>
