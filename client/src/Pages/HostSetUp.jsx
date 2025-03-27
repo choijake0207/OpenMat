@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import styles from "../Styles/hostSetUp.module.css"
 import {useAuthStore} from "../Utils/AuthStore"
-import {Info, BuildingOffice, HouseLine} from "@phosphor-icons/react"
+import {Info, BuildingOffice, HouseLine, X} from "@phosphor-icons/react"
 import { fetchProfile } from '../API/GET'
 import Leaflet from '../Components/Leaflet'
 import InfoModal from '../Components/InfoModal'
+import { PlusCircle } from 'phosphor-react'
+import Step0 from '../Components/HostForm/Step0'
+import Step1 from '../Components/HostForm/Step1'
 
 export default function Host() {
 
+  const times = [
+     "6:00am", "7:00am", "8:00am", "9:00am", "10:00am", "11:00am", "12:00pm", 
+     "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm", "6:00pm", "7:00pm", "8:00pm",
+    "9:00pm", "10:00pm", "All Day"
+
+  ]
   const auth = useAuthStore(store => store.auth)
   const [step, setStep] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -55,6 +64,39 @@ export default function Host() {
     }))
   }
 
+  const handleTypeChange = (e, type) => {
+    e.preventDefault()
+    setData(prev => ({
+      ...prev,
+      type: type
+    }))
+  }
+
+  const createDate = (e) => {
+    e.preventDefault()
+    setData(prev => ({
+      ...prev,
+      scheduleList: [...prev.scheduleList, {day: "", start: "", end: ""}]
+    }))
+  }
+
+  const setDate = (e, i, name) => {
+    const {value} = e.target
+    setData(prev => ({
+      ...prev,
+      scheduleList: prev.scheduleList.map((date, index) => {
+        if (i === index) {
+          return {
+            ...date,
+            [name]: value
+          }
+        }
+      })
+    }))
+  }
+
+  console.log(data)
+
 
 
   if (loading) {
@@ -73,64 +115,15 @@ export default function Host() {
 
       <form className={styles.host_form}>
         
-        {step === 0 && <div className={styles.step_0}>
-          <section className={styles.intro_section}>
-            <div className={styles.section_header}>
-              <h2>1</h2>
-              <h2>Confirm Your Personal Information</h2>
-            </div>
-            <p>
-              Review your profile information and make sure it's accurate. This will be public for all users to see.
-            </p>
-          </section>
+        {step === 0 && <Step0 handleNext={(e) => nextStep(e)}/>}
 
-          <section className={styles.intro_section}>
-            <div className={styles.section_header}>
-              <h2>2</h2>
-              <h2>Add Listing Details</h2>
-            </div>
-            <p>
-              Add 3 or more photos of your mat space plus a description of what you are intending to host the mat space for.
-            </p>
-          </section>
-
-          <footer className={styles.step_footer}>
-            <button className={styles.start_btn} onClick={(e) => nextStep(e)}>Get Started</button>
-          </footer>
-        </div>}
-
-        {step === 1 && <div className={styles.step_1}>
-          <h2>Your Public Profile</h2>
-          <div className={styles.step_1_info_box}>
-            <Info/> 
-            <p>If anything looks incorrect, please go to the profile page and update accordingly before proceeding</p>
-          </div>
-          <section className={styles.step_1_public_profile}>
-            <img src={profile.pfp} alt="profile_picture"/>
-            <div className={styles.profile_info}>
-              <label>Name
-                <p>{profile.firstName} {profile.lastName}</p>
-              </label>
-              <label>Affiliation
-                <p>{profile.affiliation}</p>
-              </label>
-              <label>Belt
-                <p>{profile.belt}</p>
-              </label>
-            </div>
-          </section>
-
-          <footer className={styles.step_footer}>
-            <button className={styles.prev_btn} onClick={(e) => prevStep(e)}>Go Back</button>
-            <button className={styles.next_or_submit_btn} onClick={(e) => nextStep(e)}>Next</button>
-          </footer>
-        </div>}
-
+        {step === 1 && <Step1 profile={profile} handleNext={(e) => nextStep(e)} handlePrev={(e) => handlePrev(e)}/>}
 
         {step === 2 && <div className={styles.step_2}>
+
           <h2>Listing Details</h2>
+
           <div className={styles.list_location}>
-            
             <h3>Where is your listing located? <Info onClick={()=> setInfoModal(!infoModal)}/>
               {infoModal && <InfoModal 
                 header={"Privacy Notice"} 
@@ -149,27 +142,47 @@ export default function Host() {
               <Leaflet/>
             </div>
           </div>
+
           <div className={styles.list_type}>
             <h3>Which describes your listing facility?</h3>
             <div className={styles.list_type_btns}>
-              <button className={styles.type_btn}><HouseLine/> Residential</button>
-              <button className={styles.type_btn}><BuildingOffice/> Commercial </button>
+              <button 
+                className={`${styles.type_btn} ${data.type === "Residential" ? styles.active_type: ""}`}
+                onClick={(e) => handleTypeChange(e, "Residential")}
+              ><HouseLine/> Residential</button>
+              <button 
+                className={`${styles.type_btn} ${data.type === "Commercial" ? styles.active_type: ""}`}
+                onClick={(e) => handleTypeChange(e, "Commercial")}
+              ><BuildingOffice/> Commercial </button>
             </div>
           </div>
+
           <div className ={styles.list_img}>
             <h3>Upload 3 or more pictures:</h3>
-            <ul className={styles.img_previews}>
-
-            </ul>
-            <input
-              type="file"
-              multiple={true}
-              image='image/*'
-              name="pictures"
-              className={styles.img_uploader}
-              onChange={(e) => handleChange(e)}
-              required
-            />
+            {data.images && <ul className={styles.img_previews}>
+                {
+                  [...data.images].map((file, i) => {
+                    
+                    return (
+                      <li key={i} className={styles.preview_img}>
+                        <img src={URL.createObjectURL(file)}/>
+                      </li>
+                    )
+                  })
+                }
+            </ul>}
+            <label className={styles.custom_uploader}>
+              {data.images === null ? "Upload Images" :" Replace Images"}
+              <input
+                type="file"
+                multiple={true}
+                image='image/*'
+                name="images"
+                className={styles.img_uploader}
+                onChange={(e) => handleChange(e)}
+                required
+              />
+            </label>
           </div>
 
           <div className={styles.list_description}>
@@ -185,30 +198,73 @@ export default function Host() {
 
           <div className={styles.list_scheduling}>
             <h3>What is your availability?</h3>
-            <select value={data.scheduleType} name="scheduleType" onChange={(e) => handleChange(e)} required>
+            <select value={data.scheduleType} name="scheduleType" className={styles.scheduling_type_picker} onChange={(e) => handleChange(e)} required>
               <option value="">Select Schedule</option>
               <option value="Fixed">Fixed</option>
               <option value="Flexible">Flexible</option>
             </select>
+            {
+              data.scheduleType === "Fixed" &&
+              <div className={styles.schedule_list}>
+                {
+                  data.scheduleList.length > 0 && data.scheduleList.map((date, i) => {
+                    return (
+                      <div className={styles.date_input} key={i}>
+                        <label>
+                          Day
+                          <select className={styles.day_picker} name="day" onChange={(e) => setDate(e, i)}>
+                            <option value="">Choose Day</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                          </select>
+                        </label>
+                        <label>
+                          Start
+                          <select className={styles.start_picker} name="start" onChange={(e) => setDate(e, i)}>
+                            {
+                              times.map((time, i) => {
+                                return (
+                                  <option key={i} value={time}>{time}</option>
+                                )
+                              })
+                            }
+                          </select>
+                        </label>
+                        <label>
+                          End
+                          <select className={styles.end_picker} name="end" onChange={(e) => setDate(e, i)}>
+                            {
+                              times.map((time, i) => {
+                                return (
+                                  <option key={i} value={time}>{time}</option>
+                                )
+                              })
+                            }
+                          </select>
+                        </label>
+                        <button className={styles.delete_date_btn}><X/></button>
+                      </div>
+                    )
+                  })
+                }
+                <button onClick={(e) => createDate(e)}><PlusCircle/>Add Date</button>
+              </div>
+            }
+            </div>
+
+            <footer className={styles.step_footer}>
+              <button className={styles.prev_btn} onClick={(e) => prevStep(e)}>Go Back</button>
+              <button className={styles.next_or_submit_btn} onClick={(e) => nextStep(e)}>Next</button>
+            </footer>
           </div>
-
-          <footer className={styles.step_footer}>
-            <button className={styles.prev_btn} onClick={(e) => prevStep(e)}>Go Back</button>
-            <button className={styles.next_or_submit_btn} onClick={(e) => nextStep(e)}>Next</button>
-          </footer>
-        </div>}
-
-
-
-
-
+        }
 
       </form>
-
-   
-
-
-
     </div>
   )
 }
