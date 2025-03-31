@@ -67,7 +67,7 @@ export default function Host() {
     e.preventDefault()
     setData(prev => ({
       ...prev,
-      scheduleList: [...prev.scheduleList, {day: "", start: "", end: ""}]
+      scheduleList: [...prev.scheduleList, {day: "", start: "", end: "", id: Date.now()}]
     }))
   }
 
@@ -88,9 +88,14 @@ export default function Host() {
     }))
   }
 
-  console.log(data)
-
-
+  const removeDate = (e, i) => {
+    e.preventDefault()
+    setData(prev => ({
+      ...prev,
+      scheduleList: prev.scheduleList.filter((_, index) => index !== i
+      )
+    }))
+  }
 
   if (loading) {
     return <p>...Loading...</p>
@@ -102,15 +107,20 @@ export default function Host() {
 
       <div className={styles.host_banner}>
         <button className={styles.exit_btn}>Exit</button>
-        {step === 0 && <h1>Become a host in just a few steps</h1>}
-        {step !== 0 && <h1>Step {step}</h1>}
+        {step === 0 ? <h1>Become a host in just a few steps</h1> : <h1>Step {step}</h1>}
       </div>
 
       <form className={styles.host_form}>
         
         {step === 0 && <Step0 handleNext={(e) => nextStep(e)}/>}
 
-        {step === 1 && <Step1 profile={profile} handleNext={(e) => nextStep(e)} handlePrev={(e) => handlePrev(e)}/>}
+        {step === 1 && 
+          <Step1 
+            profile={profile} 
+            handleNext={(e) => nextStep(e)} 
+            handlePrev={(e) => handlePrev(e)}
+          />
+        }
 
         {step === 2 && 
           <Step2 
@@ -121,6 +131,7 @@ export default function Host() {
             typeChange={(e, type) => handleTypeChange(e, type)}
             handleCreateDate={(e) => createDate(e)}
             handleSetDate={(e, i) => setDate(e, i)}
+            handleRemoveDate={(e, i) => removeDate(e, i)}
           />
         }
 
