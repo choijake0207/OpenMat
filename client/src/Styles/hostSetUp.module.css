@@ -1,0 +1,423 @@
+.host_page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 150px;
+    height: 100%;
+    overflow-y: scroll;
+    position: relative;
+    scrollbar-width: none;
+}
+.host_page > * {
+    width: 100%;
+    max-width: 800px;
+}
+.host_banner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.host_banner h1 {
+    font-size: 28px;
+}
+.exit_btn {
+    padding: 7px;
+    font-size: 15px;
+    border-radius: 25px;
+    width: 80px;
+    background: none;
+    border: 1px solid var(--light-border);
+    align-self: flex-end;
+}
+.host_form {
+    padding: 15px;
+}
+.host_form button {
+    cursor: pointer;
+}
+.step_0, .step_1, .step_2 {
+    height: 100%;
+}
+.step_footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* step 0 */
+
+.intro_section {
+    border-bottom: 1px solid vaR(--light-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    padding-bottom: 25px;
+    height: 120px;
+    gap: 15px;
+}
+.intro_section img {
+    height: 60px;
+}
+
+.section_header {
+    font-size: 20px;
+    text-align: left;
+}
+.intro_section p {
+    color: var(--s-text);
+    font-size: 15px;
+}
+.start_btn {
+    width: 90%;
+    max-width: 300px;
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+    background: vaR(--primary-theme);
+    color: vaR(--bg);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* step 1 */
+.step_1 {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.step_1_info_box {
+    background: rgb(234, 234, 234);
+    border-radius: 10px;
+    padding: 7px;
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    gap: 10px;
+    color: var(--s-text)
+}
+.step_1_info_box svg {
+    font-size: 20px;
+}
+.step_1_public_profile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 15px;
+}
+.step_1_public_profile img {
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+}
+.profile_info {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.profile_info label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--light-border);
+    padding: 10px;
+    color: var(--s-text);
+    font-weight: 500;
+}
+.profile_info label > p {
+    color: var(--p-text);
+    font-weight: 600;
+}
+.prev_btn, .next_or_submit_btn {
+    width: 125px;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 25px;
+    border: none;
+    background: none;
+}
+.prev_btn {
+    border: 1px solid black;
+}
+.next_or_submit_btn {
+    background: vaR(--primary-theme);
+    color: var(--bg)
+}
+
+/* step 2 */
+.step_2 {
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.step_2 h2 {
+    margin-bottom: 20px;
+}
+.step_2 h3 {
+    margin-bottom: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    flex-wrap: wrap;
+
+} 
+.step_2 h3 > svg {
+    font-size: 22px;  
+    cursor: pointer;
+}
+.step_2 > div {
+    margin-bottom: 25px;
+}
+.location_search_box {
+    display: flex;
+    gap: 10px;
+    position: relative;
+}
+
+.save_button {
+    background: vaR(--primary-theme);
+    border: none;
+    padding: 10px;
+    font-size: 15px;
+    color: vaR(--bg);
+    border-radius: 5px;
+    width: 80px;
+}
+
+.location_input {
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid var(--light-border);
+    border-radius: 15px;
+}
+.location_input:focus {
+    outline: 1px solid vaR(--primary-theme)
+}
+.location_search_error {
+    color: red;
+    margin-top: 5px;
+    margin-left: 5px;
+    font-size: 14px;
+}
+.list_map {
+    height: 350px;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.list_type_btns{
+    display: flex;
+    gap: 15px;
+}
+.type_btn.active_type {
+    border: 2px solid var(--primary-theme)
+}
+.type_btn {
+    height: 150px;
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    font-size: 18px;
+    background: none;
+    border-radius: 15px;
+    border: 1px solid var(--light-border)
+}
+.type_btn svg {
+    font-size: 40px;
+}
+.img_previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    list-style: none;
+    margin-bottom: 15px;
+}
+.img_previews img {
+    width: 100px;
+    height: 100px;
+}
+.custom_uploader {
+    display: inline-block;
+    background: var(--primary-theme);
+    width: fit-content;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 25px;
+    font-size: 15px;
+    color: var(--bg);
+    cursor: pointer;
+}
+.img_uploader {
+    padding: 0;
+    font-size: 15px;
+    display: none;
+}
+.list_description h3 {
+    margin-bottom: 0;
+}
+.list_description p {
+    margin-bottom: 15px;
+    color: var(--s-text);
+    font-size: 15px;
+}
+.list_description textarea {
+    width: 100%;
+    height: 200px;
+    resize: none;
+    border-radius: 15px;
+    border: 1px solid var(--light-border);
+    padding: 10px;
+    font-size: 15px;
+    font-family: inherit;
+}
+.list_description textarea:focus {
+    outline: 1px solid var(--primary-theme)
+}
+.list_scheduling {
+    display: flex;
+    flex-direction: column;
+}
+.scheduling_type_picker {
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    width: 200px;
+    border: 1px solid var(--light-border);
+}
+.list_scheduling select:focus {
+    outline: 1px solid var(--primary-theme);
+}
+.schedule_list {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.date_input {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+}
+.date_input select {
+    font-size: 15px;
+    font-family: inherit;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid var(--light-border);
+}
+.date_input label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 15px;
+}
+.day_picker {
+    width: 200px;
+}
+.start_picker, .end_picker {
+    width: 100px;
+}
+.add_date_btn {
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    color: vaR(--primary-theme);
+    margin-top: 15px;
+    margin-left: 15px;
+}
+.add_date_btn svg {
+    font-size: 17px;
+}
+.delete_date_btn {
+    background: none;
+    border: none;
+    transform: translateY(10px)
+}
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 600px) {
+    .host_page {
+        padding-top: 30px;
+    }
+    .intro_section img {
+        height: 50px;
+    }
+    .step_1_info_box svg {
+        font-size: 22px;
+    }
+    .step_1_public_profile {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .step_1_public_profile img {
+        width: 150px;
+        height: 150px;
+    }
+    .profile_info {
+        width: 80%;
+    }
+    .list_map {
+        height: 300px;
+    }
+    .list_type_btns {
+        justify-content: space-evenly;
+    }
+    .type_btn {
+        height: 130px;
+        width: 175px;
+    }
+    h2 {
+        text-align: center;
+    }
+    .list_description p {
+        line-height: 17px;
+        font-size: 13px;
+    }
+    .img_previews {
+        gap: 10px;
+    }
+    .img_previews img {
+        width: 75px;
+        height: 75px;
+    }
+    .add_date_btn {
+        align-self: center;
+
+    }
+
+}
+
+@media (max-width: 380px) {
+    .host_form {
+        padding: 5px;
+    }
+}
