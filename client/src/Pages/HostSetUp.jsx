@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import styles from "../Styles/hostSetUp.module.css"
 import {useAuthStore} from "../Utils/AuthStore"
 import { fetchProfile } from '../API/GET'
-import Step0 from '../Components/HostForm/Step0'
-import Step1 from '../Components/HostForm/Step1'
-import Step2 from '../Components/HostForm/Step2'
+import Step0 from '../Components/HostFormSteps/Step0'
+import Step1 from '../Components/HostFormSteps/Step1'
+import Step2 from '../Components/HostFormSteps/Step2'
 import Loader from '../Components/Loader'
 
 export default function Host() {
@@ -14,15 +14,6 @@ export default function Host() {
   const [step, setStep] = useState(0)
   const [profileLoading, setProfileLoading] = useState(true)
   const [profile, setProfile] = useState()
-  const [data, setData] = useState({
-    location: null,
-    address: null,
-    type: "",
-    images: null,
-    description: "",
-    scheduleType: "",
-    scheduleList: []
-  })
 
   useEffect(() => {
     if (!auth?.id) return
@@ -47,73 +38,7 @@ export default function Host() {
   const prevStep = (e) => {
     e.preventDefault()
     setStep(prev => prev - 1)
-  }
-
-  const handleChange = (e) => {
-    const {name, value, type, files} = e.target
-    setData(prev => ({
-      ...prev,
-      [name]: type === "file" ? files : value
-    }))
-  }
-
-  const setAddress = (address) => {
-    setData(prev => ({
-      ...prev,
-      address: {
-        ...prev.address,
-        address
-      }
-    }))
-  }
-  const setLocation = (coords) => {
-    setData(prev => ({
-      ...prev, 
-      location: coords
-    }))
-  }
-
-  const handleTypeChange = (e, type) => {
-    e.preventDefault()
-    setData(prev => ({
-      ...prev,
-      type: type
-    }))
-  }
-
-  const createDate = (e) => {
-    e.preventDefault()
-    setData(prev => ({
-      ...prev,
-      scheduleList: [...prev.scheduleList, {day: "", start: "", end: "", id: Date.now()}]
-    }))
-  }
-
-  const setDate = (e, i) => {
-    const {value, name} = e.target
-    setData(prev => ({
-      ...prev,
-      scheduleList: prev.scheduleList.map((date, index) => {
-        if (i === index) {
-          return {
-            ...date,
-            [name]: value
-          }
-        } else {
-          return date
-        }
-      })
-    }))
-  }
-
-  const removeDate = (e, i) => {
-    e.preventDefault()
-    setData(prev => ({
-      ...prev,
-      scheduleList: prev.scheduleList.filter((_, index) => index !== i
-      )
-    }))
-  }
+  }  
 
   if (profileLoading) {
     return <Loader type={"page"}/>
@@ -130,7 +55,11 @@ export default function Host() {
 
       <form className={styles.host_form}>
         
-        {step === 0 && <Step0 handleNext={(e) => nextStep(e)}/>}
+        {step === 0 && 
+          <Step0 
+            handleNext={(e) => nextStep(e)}
+          />
+        }
 
         {step === 1 && 
           <Step1 
@@ -139,20 +68,10 @@ export default function Host() {
             handlePrev={(e) => prevStep(e)}
           />
         }
-        {/* Massive prop drilling => need to take everything out into custom hook or zustand store*/}
         {step === 2 && 
           <Step2 
-            data={data} 
             handleNext={(e) => nextStep(e)} 
             handlePrev={(e) => prevStep(e)} 
-            change={(e) => handleChange(e)}
-            typeChange={(e, type) => handleTypeChange(e, type)}
-            handleCreateDate={(e) => createDate(e)}
-            handleSetDate={(e, i) => setDate(e, i)}
-            handleRemoveDate={(e, i) => removeDate(e, i)}
-            handleAddress={(address) => setAddress(address)}
-            handleLocation = {(coords) => setLocation(coords)}
-            center={data.location ? [data.location.lat, data.location.lon] : null}
           />
         }
 
