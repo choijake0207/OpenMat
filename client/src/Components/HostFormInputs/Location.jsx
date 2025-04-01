@@ -13,9 +13,11 @@ export default function Location() {
     const [locationInput, setLocationInput ] = useState("")
     const [loadingGeoCode, setLoadingGeoCode] = useState(false)
     const [geoCodeError, setGeoCodeError] = useState({status: false, message: null})
+    const [resultsFound, setResultsFound] = useState(false)
     const coordinates = useHostFormStore(store => store.data.coordinates)
     const setCoords = useHostFormStore(store => store.setCoords)
     const setAddress = useHostFormStore(store => store.setAddress)
+    const address = useHostFormStore(store => store.data.address)
 
     const fetchCoords = async(e) => {
         e.preventDefault()
@@ -46,6 +48,7 @@ export default function Location() {
             console.error(error)
         } finally {
             setLoadingGeoCode(false)
+            setResultsFound(true)
         }
     }
 
@@ -53,7 +56,7 @@ export default function Location() {
   return (
     <div className={styles.list_location}>
 
-        <h3>Where is your listing located? <Info onClick={()=> setInfoModal(!infoModal)}/>
+        <h3>Where is your listing located? <Info onMouseEnter={()=> setInfoModal(true)} onMouseLeave={() => setInfoModal(false)}/>
             {infoModal && 
                 <InfoModal 
                     header={"Privacy Notice"} 
@@ -75,17 +78,35 @@ export default function Location() {
                 onClick={(e) => fetchCoords(e)} 
                 disabled={loadingGeoCode}
             >
-                {loadingGeoCode ? <Loader type="button"/> : "Save"}
+                {loadingGeoCode ? <Loader type="button"/> : "Search"}
             </button>
         </div>
 
-        {
-            geoCodeError.status && <p className={styles.location_search_error}>{geoCodeError.message}</p>
+        {geoCodeError.status && 
+            <p className={styles.location_search_error}>{geoCodeError.message}</p>
         }
 
-        <div className={styles.location_result}>
-
-        </div>
+        {resultsFound &&
+            <div className={styles.location_results}>
+                <label>
+                    Street: <p>{address.street}</p>
+                </label>
+                <div className={styles.results_details}>
+                    <label>
+                        City: <p>{address.city}</p>
+                    </label>
+                    <label>
+                        State: <p>{address.state}</p>
+                    </label>
+                    <label>
+                        Zip Code: <p>{address.zip}</p>
+                    </label>
+                </div>
+                <label>
+                    Country: <p>{address.country}</p>
+                </label>
+            </div>
+        }
 
         <div className={styles.list_map}>
             <Leaflet
