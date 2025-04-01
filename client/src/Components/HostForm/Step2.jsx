@@ -4,8 +4,13 @@ import { Info, PlusCircle, X } from 'phosphor-react'
 import { BuildingOffice, HouseLine } from '@phosphor-icons/react/dist/ssr'
 import Leaflet from '../Leaflet'
 import styles from "../../Styles/hostSetUp.module.css"
-import { geoLocate, geoAutoComplete } from '../../API/GET'
+import { geoLocate } from '../../API/GET'
 import Loader from '../Loader'
+import {times, states} from "../../Utils/HostFormData"
+
+// Need to component-tize form elements
+// Too many inputs and too many rerenders 
+// Use custom hook or zustand store in each component to set form data state
 
 export default function Step2({
     data, 
@@ -16,28 +21,43 @@ export default function Step2({
     typeChange, 
     handleCreateDate, 
     handleSetDate, 
-    handleRemoveDate
+    handleRemoveDate,
+    handleLocation,
+    center
 }) {
 
-    const times = [
-        "6:00am", "7:00am", "8:00am", "9:00am", "10:00am", "11:00am", "12:00pm", 
-        "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm", "6:00pm", "7:00pm", "8:00pm",
-       "9:00pm", "10:00pm", "All Day"
-   
-    ]
-    const [leafletCenter, setLeafletCenter] = useState(null)
+
     const [infoModal, setInfoModal] = useState(false)
-    const [address, setAddress] = useState("")
+    const [locationInput, setLocationInput ] = useState("")
     const [loadingGeoCode, setLoadingGeoCode] = useState(false)
+    const [geoCodeError, setGeoCodeError] = useState({status: false, message: null})
     
 
     const fetchCoords = async(e) => {
         e.preventDefault()
         try {
             setLoadingGeoCode(true)
-            const response = await geoLocate(address)
-            setLeafletCenter([response.features[0].properties.lat, response.features[0].properties.lon])
-            handleAddress({lat: response.features[0].properties.lat, lon: response.features[0].properties.lon})
+            const response = await geoLocate(locationInput)
+            // API doesn't return error for invalid input but just null feature array
+            if (response.features.length === 0) {
+                setGeoCodeError({
+                    status: true,
+                    message: "Sorry, we don't recognize that address. Please type out the full street address, city, and state."
+                })
+            } else {
+                setGeoCodeError({
+                    status: false
+                })
+                console.log(response)
+                handleAddress({
+                    street: response.features[0].properties.address_line1,
+                    city: response.features[0].properties.city,
+                    state: response.features[0].properties.state,
+                    zip: response.features[0].properties.postcode,
+                    country: response.features[0].properties.country
+                })
+                handleLocation({lat: response.features[0].properties.lat, lon: response.features[0].properties.lon})
+            }
         } catch (error) {
             console.error(error)
         } finally {
@@ -45,7 +65,6 @@ export default function Step2({
         }
     }
 
-    console.log("data", data)
 
   return (
     <div className={styles.step_2}>
@@ -64,19 +83,24 @@ export default function Step2({
                 <input
                     type="text"
                     className={styles.location_input}
-                    value={address}
-                    placeholder="Street / City / State"
-                    name="location"
-                    onChange={(e) => setAddress(e.target.value)}
-                    required
+                    value={locationInput}
+                    onChange={(e) => setLocationInput(e.target.value)}
+                    placeholder='Street / City / State'
                 />
-                <button className={styles.search_button} onClick={(e) => fetchCoords(e)} disabled={loadingGeoCode}>
-                    {loadingGeoCode ? <Loader type="button"/> : "Search"}
+            
+                <button className={styles.save_button} onClick={(e) => fetchCoords(e)} disabled={loadingGeoCode}>
+                    {loadingGeoCode ? <Loader type="button"/> : "Save"}
                 </button>
+            </div>
+            {geoCodeError.status &&
+                <p className={styles.location_search_error}>{geoCodeError.message}</p>
+            }
+            <div className={styles.location_result}>
+
             </div>
             <div className={styles.list_map}>
                 <Leaflet
-                    center={leafletCenter ?? [0,0]}
+                    center={center ?? [0,0]}
                     zoom={15}
                 />
             </div>
