@@ -5,6 +5,7 @@ import Type from '../HostFormInputs/Type'
 import Images from '../HostFormInputs/Images'
 import Description from '../HostFormInputs/Description'
 import Schedule from '../HostFormInputs/Schedule'
+import Title from '../HostFormInputs/Title'
 import { useHostFormStore } from '../../Utils/HostFormStore'
 
 // Need to component-tize form elements
@@ -13,13 +14,12 @@ import { useHostFormStore } from '../../Utils/HostFormStore'
 
 export default function Step2({handleNext, handlePrev}) {
 
-    const data = useHostFormStore(store => store.data)
-    console.log("form", data)
+
 
   return (
     <div className={styles.step_2}>
         <h2>Listing Details</h2>
-
+        <Title/>
         <Location/>
         <Type/>
         <Images/>

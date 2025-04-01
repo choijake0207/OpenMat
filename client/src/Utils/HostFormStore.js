@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 const hostFormStore = (set) => ({
     data: {
+        title: "",
         coordinates: null,
         address: null,
         type: null,
@@ -10,7 +11,13 @@ const hostFormStore = (set) => ({
         scheduleType: "",
         scheduleList: []
     },
-
+    //
+    setTitle: (title) => {
+        set((hostFormStore) => ({data: {
+            ...hostFormStore.data,
+            title: title
+        }}))
+    },
     // set coords
     setCoords: (coords) => {
         set((hostFormStore) => ({data: {
