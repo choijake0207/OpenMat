@@ -5,16 +5,18 @@ import { fetchProfile } from '../API/GET'
 import Step0 from '../Components/HostForm/Step0'
 import Step1 from '../Components/HostForm/Step1'
 import Step2 from '../Components/HostForm/Step2'
+import Loader from '../Components/Loader'
 
 export default function Host() {
 
 
   const auth = useAuthStore(store => store.auth)
   const [step, setStep] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [profileLoading, setProfileLoading] = useState(true)
   const [profile, setProfile] = useState()
   const [data, setData] = useState({
-    location: "",
+    location: null,
+    address: null,
     type: "",
     images: null,
     description: "",
@@ -26,13 +28,13 @@ export default function Host() {
     if (!auth?.id) return
     const fetch = async () => {
       try {
-        setLoading(true)
+        setProfileLoading(true)
         const response = await fetchProfile(auth.id)
         setProfile(response)
       } catch (error) {
         console.error(error)
       } finally {
-        setLoading(false)
+        setProfileLoading(false)
       }
     }
     fetch()
@@ -52,6 +54,22 @@ export default function Host() {
     setData(prev => ({
       ...prev,
       [name]: type === "file" ? files : value
+    }))
+  }
+
+  const setAddress = (address) => {
+    setData(prev => ({
+      ...prev,
+      address: {
+        ...prev.address,
+        address
+      }
+    }))
+  }
+  const setLocation = (coords) => {
+    setData(prev => ({
+      ...prev, 
+      location: coords
     }))
   }
 
@@ -97,8 +115,8 @@ export default function Host() {
     }))
   }
 
-  if (loading) {
-    return <p>...Loading...</p>
+  if (profileLoading) {
+    return <Loader type={"page"}/>
   }
 
 
@@ -118,10 +136,10 @@ export default function Host() {
           <Step1 
             profile={profile} 
             handleNext={(e) => nextStep(e)} 
-            handlePrev={(e) => handlePrev(e)}
+            handlePrev={(e) => prevStep(e)}
           />
         }
-
+        {/* Massive prop drilling => need to take everything out into custom hook or zustand store*/}
         {step === 2 && 
           <Step2 
             data={data} 
@@ -132,6 +150,9 @@ export default function Host() {
             handleCreateDate={(e) => createDate(e)}
             handleSetDate={(e, i) => setDate(e, i)}
             handleRemoveDate={(e, i) => removeDate(e, i)}
+            handleAddress={(address) => setAddress(address)}
+            handleLocation = {(coords) => setLocation(coords)}
+            center={data.location ? [data.location.lat, data.location.lon] : null}
           />
         }
 
