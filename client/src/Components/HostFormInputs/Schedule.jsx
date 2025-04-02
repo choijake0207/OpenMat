@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHostFormStore } from '../../Utils/HostFormStore'
 import styles from "../../Styles/hostSetUp.module.css"
-import { PlusCircle, X } from 'phosphor-react'
+import { CalendarPlus, X } from 'phosphor-react'
 
 export default function Schedule() {
 
@@ -30,13 +30,14 @@ export default function Schedule() {
   return (
     <div className={styles.list_scheduling}>
             <h3>What is your availability?</h3>
-
-            <select value={scheduleType} name="scheduleType" className={styles.scheduling_type_picker} onChange={(e) => setScheduleType(e.target.value)} required>
-                <option value="">Select Schedule</option>
-                <option value="Fixed">Fixed</option>
-                <option value="Flexible">Flexible</option>
-            </select>
-
+            <div className={styles.select_and_add}>
+                <select value={scheduleType} name="scheduleType" className={styles.scheduling_type_picker} onChange={(e) => setScheduleType(e.target.value)} required>
+                    <option value="">Select Schedule</option>
+                    <option value="Fixed">Fixed</option>
+                    <option value="Flexible">Flexible</option>
+                </select>
+                {scheduleType === "Fixed" && <button className={styles.add_date_btn} onClick={(e) => handleCreateDate(e)}><CalendarPlus/>Add Date</button>}
+            </div>
             {
                 scheduleType === "Fixed" &&
                     <div className={styles.schedule_list}>
@@ -47,7 +48,7 @@ export default function Schedule() {
 
                                         <label>
                                             Day
-                                            <select className={styles.day_picker} name="day" onChange={(e) => updateDate("day", e.target.value, date.id)}>
+                                            <select className={styles.day_picker} value={scheduleList[i].day} name="day" onChange={(e) => updateDate("day", e.target.value, date.id)}>
                                                 <option value="">Day</option>
                                                 <option value="Monday">Monday</option>
                                                 <option value="Tuesday">Tuesday</option>
@@ -58,47 +59,47 @@ export default function Schedule() {
                                                 <option value="Sunday">Sunday</option>
                                             </select>
                                         </label>
+                                        <div className={styles.date_times}>
+                                            <label>
+                                                Start
+                                                <select className={styles.start_picker} value={scheduleList[i].start} name="start" onChange={(e) => updateDate("start", e.target.value, date.id)}>
+                                                    <option value="">--</option>
+                                                    {
+                                                        times.map((time, i) => {
+                                                        return (
+                                                            <option key={i} value={time}>{time}</option>
+                                                        )
+                                                        })
+                                                    }
+                                                </select>
+                                            </label>
 
-                                        <label>
-                                            Start
-                                            <select className={styles.start_picker} name="start" onChange={(e) => updateDate("start", e.target.value, date.id)}>
-                                                <option value="">--</option>
-                                                {
-                                                    times.map((time, i) => {
-                                                    return (
-                                                        <option key={i} value={time}>{time}</option>
-                                                    )
-                                                    })
-                                                }
-                                            </select>
-                                        </label>
+                                            <label>
+                                                End
+                                                <select className={styles.end_picker} value={scheduleList[i].end} name="end" onChange={(e) => updateDate("end", e.target.value, date.id)}>
+                                                    <option value="">--</option>
+                                                    {
+                                                        times.map((time, i) => {
+                                                        return (
+                                                            <option key={i} value={time}>{time}</option>
+                                                        )
+                                                        })
+                                                    }
+                                                </select>
+                                            </label>
 
-                                        <label>
-                                            End
-                                            <select className={styles.end_picker} name="end" onChange={(e) => updateDate("end", e.target.value, date.id)}>
-                                                <option value="">--</option>
-                                                {
-                                                    times.map((time, i) => {
-                                                    return (
-                                                        <option key={i} value={time}>{time}</option>
-                                                    )
-                                                    })
-                                                }
-                                            </select>
-                                        </label>
-
-                                        <button 
-                                            className={styles.delete_date_btn} 
-                                            onClick={(e) => handleRemoveDate(e, date.id)}
-                                        >
-                                            <X/>
-                                        </button>
+                                            <button 
+                                                className={styles.delete_date_btn} 
+                                                onClick={(e) => handleRemoveDate(e, date.id)}
+                                            >
+                                                <X/>
+                                            </button>
+                                        </div>
 
                                     </div>
                                 )
                             })
                         }
-                    <button className={styles.add_date_btn} onClick={(e) => handleCreateDate(e)}><PlusCircle/>Add Date</button>
 
                 </div>
             }

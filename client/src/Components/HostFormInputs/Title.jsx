@@ -3,7 +3,7 @@ import styles from "../../Styles/hostSetUp.module.css"
 import { useHostFormStore } from '../../Utils/HostFormStore'
 
 export default function Title() {
-    const title = useHostFormStore(store => store.title)
+    const title = useHostFormStore(store => store.data.title)
     const setTitle = useHostFormStore(store => store.setTitle)
   return (
     <div className={styles.listing_title}>
