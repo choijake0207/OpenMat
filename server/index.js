@@ -21,6 +21,8 @@ const io = new Server(server, {
 // router mounts
 const userRouter = require("./routes/userRouter")
 app.use("/user", userRouter)
+const listingRouter = require("./routes/listingRouter")
+app.use("/listing", listingRouter)
 
 
 
