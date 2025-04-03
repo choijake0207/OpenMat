@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router'
-import styles from "../Styles/signUp.module.css"
+import styles from "../Styles/signUpModal.module.css"
 import {X} from "phosphor-react"
 import { useAuthStore } from '../Utils/AuthStore'
 
@@ -92,8 +92,8 @@ export default function SignUpModal({closeModal, switchModal, pageMode}) {
 
 
   return (
-    <div className={`${styles.modal_wrap} ${pageMode ? styles.page_mode : ""}`}>
-        <form className={styles.signup_modal_form}>
+    <div className={`${styles.modal_wrap} ${pageMode ? styles.page_mode : styles.modal_mode}`}>
+        <form className={`${styles.signup_modal_form} ${styles[`step${formStep}`]}`}>
 
            {formStep === 1 && 
                 <div className={styles.step_1}>
