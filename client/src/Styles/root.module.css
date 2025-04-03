@@ -5,19 +5,18 @@
     z-index: 10;
 }
 .root_header {
-    padding: 15px;
+    padding: 10px;
     display: flex;
     align-items: center;
     color: vaR(--p-text);
-    border: 1px solid blue;
+    border-bottom: 1px solid var(--light-border);
     justify-content: space-between;
-    position: relative;
 }
 .logo_container {
     display: flex;
+    align-items: center;
     gap: 10px;
     width: 250px;
-    border: 1px solid red;
 }
 .logo_img {
     height: 30px;
@@ -30,14 +29,16 @@
     display: flex;
     gap: 20px;
     position: relative;
-    border: 1px solid red;
+}
+.root_nav a.active {
+    color: var(--primary-theme)
 }
 .user_links {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 25px;
-    width: 250px;
-    border: 1px solid red;
+    width: 270px;
 }
 .chat_link svg {
     font-size: 1.5em;
@@ -51,13 +52,18 @@
     align-items: center;
     gap: 10px;
     border-radius: 25px;
-    border: 1px solid gray;
+    border: 1px solid var(--light-border);
     padding: 5px;
     padding-left: 10px;
-    padding-right: 10px;
 }
-.nav_username_btn svg{
-    font-size: 1.5em;
+.nav_username_btn svg {
+    font-size: 20px;
+}
+.nav_username_btn img{
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 .nav_user_modal {
     position: absolute;
@@ -74,7 +80,6 @@
     font-size: 13px;
     background: var(--bg);
     justify-content: center;
-    border: 1px solid red;
     height: 30px;
     text-align: left;
     color: var(--p-text);
@@ -86,9 +91,15 @@
 
 /* Shared Page Layout */
 .page_layout {
-    border: 1px solid red;
     height: 100%;
-    padding: 25px;
+    padding-top: 20px;
+    padding-bottom: 100px;
+}
+.page_header h1 {
+    font-weight: 500;
+    padding-left: 30px;
+    margin: 0;
+    margin-bottom: 10px;
 }
 
 
@@ -98,6 +109,8 @@
     display: none;
     width: 100%;
     padding: 7px;
+    border-top: 1px solid var(--light-border);
+    background: var(--bg)
 }
 .mobile_nav_600 a {
     font-size: 12px;
@@ -106,6 +119,9 @@
     justify-content: center;
     align-items: center;
     gap: 2px;
+}
+.mobile_nav_600 a.active {
+    color: red;
 }
 .mobile_nav_600 a > svg {
     font-size: 25px;
@@ -131,7 +147,12 @@
         justify-content: space-around;
         position: absolute;
         bottom: 0;
-        border: 1px solid red;
+    }
+    .page_layout {
+        padding-top: 30px;
+    }
+    .page_header {
+        border-bottom: 1px solid vaR(--light-border)
     }
 
 }

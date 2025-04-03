@@ -72,7 +72,8 @@ export default function RootLayout() {
                             onClick={() => setNavModalOn(!navModalOn)}
                         >
                             <List/>
-                            {auth.firstName}
+                            <img src={auth.pfp}/>
+                  
                         </button>
 
                     </>
@@ -97,6 +98,7 @@ export default function RootLayout() {
                 <SignUpModal 
                     closeModal={() => setRegisterModalOn(false)}
                     switchModal={() => setLoginModalOn(true)}
+                    pageMode={false}
                 />
         }
         {
@@ -104,6 +106,7 @@ export default function RootLayout() {
                 <LoginModal 
                     closeModal={() => setLoginModalOn(false)}
                     switchModal={() => setRegisterModalOn(true)}
+                    pageMode={false}
                 />
         }
       
