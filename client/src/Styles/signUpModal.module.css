@@ -1,5 +1,6 @@
 .modal_wrap {
     position: absolute;
+    z-index: 100;
     height: 100%;
     width: 100%;
     top: 0;
@@ -16,32 +17,77 @@
 .page_mode .signup_modal_form {
     transform: translateY(0)
 }
+
+.modal_mode .signup_modal_form {
+    animation: modalSlideUp .3s ease forwards;
+    width: 500px;
+    overflow: hidden;
+    border-radius: 15px;
+    transition: height 0.2s ease;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1), -5px -5px 20px rgba(0, 0, 0, 0.1);
+
+}
+.modal_mode .signup_modal_form.step1 {
+    height: 450px;
+}
+.modal_mode .signup_modal_form.step2 {
+    height: 300px;
+}
+.modal_mode .signup_modal_form.step3 {
+    height: 350px;
+}
 .signup_modal_form {
-    border: 1px solid red;
-    transform: translateY(-70px);
     background: var(--bg);
     display: flex;
     flex-direction: column;
     padding: 25px;
     border-radius: 7px;
 }
+.form_header {
+    display: flex;
+    padding-top: 15px;
+}
+.form_header h1 {
+    font-size: 25px;
+    font-weight: 700;
+}
+.close_modal_btn {
+    background: none;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+.close_modal_btn svg {
+    color: var(--p-text);
+    font-size: 17px;
+}
 .signup_modal_form label {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
-.signup_modal_form input {
-    padding: 5px;
+.signup_modal_form input, select, textarea {
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid var(--light-border);
+    border-radius: 5px;
+}
+input:focus, select:focus, textarea:focus {
+    outline: 1px solid var(--primary-theme)
+}
+textarea {
+    height: 100px;
+    font-family: inherit
 }
 .signup_modal_form button:not(.redirect_modal_link) {
-    border-radius: 15px;
-    padding: 5px;
+    border-radius: 25px;
+    padding: 10px;
     padding-left: 15px;
     padding-right: 15px;
+    font-size: 15px;
     width: fit-content;
     border: none;
     outline: none;
-    color: var(--bg)
 }
 .signup_modal_form button:disabled {
     opacity: .5;
@@ -52,9 +98,21 @@
     gap: 25px;
 }
 
+.step_btn_container {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+}
+.prev_btn {
+    color: var(--p-text);
+    text-decoration: underline;
+    background: none;
+}
 .next_or_submit_btn {
     background: vaR(--primary-theme);
     margin-left: auto;
+    color: var(--bg)
+    
 }
 
 .redirect_modal_link {
@@ -76,4 +134,13 @@
 }
 .name_fields > label {
     width: 100%;
+}
+
+@keyframes modalSlideUp {
+    0% {
+        transform: translateY(100%)
+    }
+    100% {
+        transform: translateY(-70px)
+    }
 }

@@ -1,5 +1,6 @@
 .modal_wrap {
     position: absolute;
+    z-index: 100;
     height: 100%;
     width: 100%;
     top: 0;
@@ -15,10 +16,15 @@
 }
 .page_mode .login_modal_form {
     transform: translateY(0);
-    border: 1px solid pink
 }
+.modal_mode .login_modal_form {
+    animation: modalSlideUp .3s ease forwards;
+    width: 400px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1), -5px -5px 20px rgba(0, 0, 0, 0.1)
+}
+
 .login_modal_form {
-    transform: translateY(-70px);
     background: vaR(--bg);
     display: flex;
     flex-direction: column;
@@ -26,17 +32,39 @@
     gap: 25px;
     border-radius: 7px;
 }
+.form_header {
+    display: flex;
+    padding-top: 15px;
+}
+.form_header h1 {
+    font-size: 25px;
+    font-weight: 700;
+}
+.close_modal_btn {
+    background: none;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+.close_modal_btn svg {
+    color: var(--p-text);
+    font-size: 17px;
+}
 .login_modal_form label {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 .login_modal_form input {
-    padding: 5px;
+    padding: 10px;
+    border: 1px solid var(--light-border);
+    font-size: 15px;
+    border-radius: 5px;
 }
 .login_modal_form button:not(.redirect_modal_link) {
-    border-radius: 15px;
-    padding: 5px;
+    border-radius: 25px;
+    padding: 10px;
+    font-size: 15px;
     padding-left: 15px;
     padding-right: 15px;
     width: fit-content;
@@ -59,4 +87,13 @@
 .submit_btn {
     background: vaR(--primary-theme);
     margin-left: auto;
+}
+
+@keyframes modalSlideUp {
+    0% {
+        transform: translateY(100%)
+    }
+    100% {
+        transform: translateY(-70px)
+    }
 }
