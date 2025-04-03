@@ -8,7 +8,8 @@ const authStore = (set) => ({
         isAuthorized: false,
         role: "",
         id: "",
-        firstName: ""
+        firstName: "",
+        pfp: ""
     },
     register: async(formData) => {
         try {
@@ -23,7 +24,8 @@ const authStore = (set) => ({
                 isAuthorized: true,
                 role: response.data.user.role,
                 id: response.data.user.id,
-                firstName: response.data.user.firstName
+                firstName: response.data.user.firstName,
+                pfp: response.data.user.pfp
             }}))
             return response.data
         } catch (error) {
@@ -42,7 +44,8 @@ const authStore = (set) => ({
                 isAuthorized: true,
                 role: response.data.role,
                 id: response.data.id,
-                firstName: response.data.firstName
+                firstName: response.data.firstName,
+                pfp: response.data.pfp
             }}))
             console.log(auth)
         } catch (error) {
@@ -55,7 +58,8 @@ const authStore = (set) => ({
             isAuthorized: false,
             role: "",
             id: "",
-            firstName: ""
+            firstName: "",
+            pfp:""
         }}))
     },
     login: async (formData) => {
@@ -66,7 +70,8 @@ const authStore = (set) => ({
                 isAuthorized: true,
                 role: response.data.user.role,
                 id: response.data.user.id,
-                firstName: response.data.user.firstName
+                firstName: response.data.user.firstName,
+                pfp: response.data.user.pfp
             }}))
             return response.data
         } catch (error) {
