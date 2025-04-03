@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Listing.associate = (models) => {
         Listing.belongsTo(models.User, {
-            foreginKey: "userId",
+            foreignKey: "userId",
             onDelete: "CASCADE"
         })
     }
