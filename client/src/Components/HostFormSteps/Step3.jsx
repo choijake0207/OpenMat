@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router'
 import styles from "../../Styles/hostSetUp.module.css"
 import { useHostFormStore } from '../../Utils/HostFormStore'
-import Listing from "../Listing/Listing"
+import ListingCard from "../Listing/ListingCard"
 import { createListing } from '../../API/POST'
 import Loader from '../Loader'
 
@@ -9,6 +10,7 @@ export default function Step3({handlePrev, hostProfile}) {
 
   const data = useHostFormStore(store => store.data)
   const [submitting, setSubmitting] = useState(false)
+  const navigate = useNavigate()
 
   const handleCreate = async(e) => {
     // strinify JSOn objects
@@ -27,6 +29,7 @@ export default function Step3({handlePrev, hostProfile}) {
     try {
       setSubmitting(true)
       const response = await createListing(formData)
+      navigate(`/listing/${response.listingId}`)
       console.log(response)
     } catch (error) {
       console.error(error)
@@ -38,7 +41,7 @@ export default function Step3({handlePrev, hostProfile}) {
   return (
     <div className={styles.step_3}>
         <h2>What Users Will See</h2>
-        <Listing listing={data} type={"preview"} hostProfile={hostProfile}/>
+        <ListingCard listing={data} type={"preview"} hostProfile={hostProfile}/>
         <footer className={styles.step_footer}>
             <button className={styles.prev_btn} disabled={submitting} onClick={(e) => handlePrev(e)}>Go Back</button>
             <button className={styles.next_or_submit_btn} disabled={submitting} onClick={(e) => handleCreate(e)}>
