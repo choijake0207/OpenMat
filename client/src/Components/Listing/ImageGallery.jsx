@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from "../../Styles/listing.module.css"
+import styles from "../../Styles/listingCard.module.css"
 import { CaretLeft } from 'phosphor-react'
 
 export default function ImageGallery({images, exitGallery, isOpen, type}) {

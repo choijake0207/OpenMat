@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import styles from "../../Styles/listing.module.css"
+import styles from "../../Styles/listingCard.module.css"
 import Leaflet from '../Leaflet'
 import { Star, SquaresFour } from 'phosphor-react'
 import ImageGallery from './ImageGallery'
