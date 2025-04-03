@@ -13,10 +13,12 @@ export default function Location() {
     const [locationInput, setLocationInput ] = useState("")
     const [loadingGeoCode, setLoadingGeoCode] = useState(false)
     const [geoCodeError, setGeoCodeError] = useState({status: false, message: null})
+
     const coordinates = useHostFormStore(store => store.data.coordinates)
     const setCoords = useHostFormStore(store => store.setCoords)
     const setAddress = useHostFormStore(store => store.setAddress)
     const address = useHostFormStore(store => store.data.address)
+
     const [resultsFound, setResultsFound] = useState(() => {
         if (!address) {
             return false;
@@ -84,7 +86,7 @@ export default function Location() {
                 onClick={(e) => fetchCoords(e)} 
                 disabled={loadingGeoCode}
             >
-                {loadingGeoCode ? <Loader type="button"/> : "Search"}
+                {loadingGeoCode ? <Loader type={"button"}/> : "Search"}
             </button>
         </div>
 

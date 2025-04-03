@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import styles from "../Styles/loginModal.module.css"
 import { X } from 'phosphor-react'
 import {useAuthStore} from "../Utils/AuthStore"
-
+import Loader from "./Loader"
 export default function LoginModal({closeModal, switchModal, pageMode}) {
 
     const [submitting, setSubmitting] = useState(false)
@@ -80,7 +80,11 @@ export default function LoginModal({closeModal, switchModal, pageMode}) {
                     name="password"
                 />
             </label>
-            <button className={styles.submit_btn} onClick={(e) => handleLogin(e)} disabled={submitting}>Login</button>
+            <button className={styles.submit_btn} onClick={(e) => handleLogin(e)} disabled={submitting}>
+                {
+                    submitting ? <Loader type={"button"}/> : "Login"
+                }
+            </button>
      
             <div className={styles.form_footer}>
                 <p>

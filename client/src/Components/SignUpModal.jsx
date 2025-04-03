@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import styles from "../Styles/signUpModal.module.css"
 import {X} from "phosphor-react"
 import { useAuthStore } from '../Utils/AuthStore'
+import Loader from "./Loader"
 
 export default function SignUpModal({closeModal, switchModal, pageMode}) {
 
@@ -207,7 +208,11 @@ export default function SignUpModal({closeModal, switchModal, pageMode}) {
                     </label>
                     <div className={styles.step_btn_container}>
                         <button className={styles.prev_btn} onClick={(e) => prevStep(e)}>Go Back</button>
-                        <button className={styles.next_or_submit_btn} onClick={(e) => handleRegister(e)} disabled={submitting}>Submit</button>
+                        <button className={styles.next_or_submit_btn} onClick={(e) => handleRegister(e)} disabled={submitting}>
+                            {
+                                submitting ? <Loader type={"button"}/> : "Register"
+                            }
+                        </button>
                     </div>
                 </div>
             }
