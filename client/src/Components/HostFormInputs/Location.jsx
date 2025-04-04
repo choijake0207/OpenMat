@@ -32,8 +32,10 @@ export default function Location() {
         try {
             setLoadingGeoCode(true)
             const response = await geoLocate(locationInput)
+            console.log(response)
+
             // API doesn't return error for invalid input but just null feature array
-            if (response.features.length === 0) {
+            if (response.features.length === 0 || response.features[0].properties.result_type !== "building") {
                 setGeoCodeError({
                     status: true,
                     message: "Sorry, we don't recognize that address. Please type out the full street address, city, and state."
@@ -42,21 +44,14 @@ export default function Location() {
                 setGeoCodeError({
                     status: false
                 })
-                console.log(response)
-                setAddress({
-                    street: response.features[0].properties.address_line1,
-                    city: response.features[0].properties.city,
-                    state: response.features[0].properties.state,
-                    zip: response.features[0].properties.postcode,
-                    country: response.features[0].properties.country
-                })
+                setAddress(response.features[0].properties.formatted)
+                setResultsFound(true)
                 setCoords({lat: response.features[0].properties.lat, lon: response.features[0].properties.lon})
             }
         } catch (error) {
             console.error(error)
         } finally {
             setLoadingGeoCode(false)
-            setResultsFound(true)
         }
     }
 
@@ -96,23 +91,8 @@ export default function Location() {
 
         {resultsFound &&
             <div className={styles.location_results}>
-                <label>
-                    Street: <p>{address.street}</p>
-                </label>
-                <div className={styles.results_details}>
-                    <label>
-                        City: <p>{address.city}</p>
-                    </label>
-                    <label>
-                        State: <p>{address.state}</p>
-                    </label>
-                    <label>
-                        Zip Code: <p>{address.zip}</p>
-                    </label>
-                </div>
-                <label>
-                    Country: <p>{address.country}</p>
-                </label>
+                <label>Address Found</label>
+                <p>{address}</p>
             </div>
         }
 
