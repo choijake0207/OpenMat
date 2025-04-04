@@ -13,6 +13,13 @@ export default function LoginModal({closeModal, switchModal, pageMode}) {
         password: ""
     })
 
+    const formValid = () => {
+        if (formData.email === "" || formData.password === "") {
+            return false
+        }
+        return true
+    }
+
     const navigate = useNavigate()
 
     const handleClose = (e) => {
@@ -80,7 +87,7 @@ export default function LoginModal({closeModal, switchModal, pageMode}) {
                     name="password"
                 />
             </label>
-            <button className={styles.submit_btn} onClick={(e) => handleLogin(e)} disabled={submitting}>
+            <button className={styles.submit_btn} onClick={(e) => handleLogin(e)} disabled={submitting || !formValid()}>
                 {
                     submitting ? <Loader type={"button"}/> : "Login"
                 }
