@@ -1,15 +1,18 @@
 import React, {useState, useEffect} from 'react'
-import { useParams, NavLink } from 'react-router-dom'
+import { useParams, NavLink, useNavigate } from 'react-router-dom'
 import PageLayout from '../Wrappers/PageLayout'
 import styles from "../Styles/profile.module.css"
 import {fetchProfile} from "../API/GET"
 import {MapPin, CaretRight, UserCircle, Gear} from "phosphor-react"
+import Loader from "../Components/Loader"
+import Avatar from '../Components/Avatar'
 
 export default function Profile() {
 
   const {id} = useParams()
   const [profile, setProfile] = useState()
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetch = async () => {
@@ -28,7 +31,7 @@ export default function Profile() {
   }, [id])
 
   if (loading) {
-    return <p>...Loading...</p>
+    return <Loader type={"page"}/>
   }
 
   return (
@@ -38,11 +41,15 @@ export default function Profile() {
         <div className={styles.user_column}>
 
           <header className={styles.profile_banner}>
-            <img src={profile.pfp} className={styles.banner_pfp} alt="profile_pic"/>
-            <div className={styles.banner_details}>
+            <div className={styles.banner_headshot}>
+              {profile.pfp ? <img src={profile.pfp} className={styles.banner_pfp} alt="profile_pic"/> : <Avatar name={profile.firstName} type={"page"}/>}
               <p className={styles.banner_name}> 
                 {profile.firstName} {profile.lastName} 
               </p>
+              <p>{profile.role === "host" ? "Host" : "Guest"}</p>
+            </div>
+            <div className={styles.banner_details}>
+              
               <p className={styles.banner_affiliation}>Affiliation: {profile.affiliation}</p>
               <p className={styles.banner_belt}>Belt: {profile.belt}</p>
               <p className={styles.banner_location}><MapPin/> Los Angeles</p>
@@ -51,8 +58,8 @@ export default function Profile() {
 
           <div className={styles.account_info}>
             <h2 className={styles.account_info_heading}>Account Info</h2>
-            <div className={styles.hosting_widget}>
-              <p className={styles.hosting_msg}>Got some available mat space? <br/> <span>Click to be a host</span></p>
+            <div className={styles.hosting_widget} onClick={() => navigate("/host/setup")}>
+              <p className={styles.hosting_msg}>Got some available mat space? <br/> <span>Click to host</span></p>
               <img src="/jiu-jitsu.png" className={styles.host_logo} alt="jiu_jitsu_owner"/>
             </div>
             <ul className={styles.account_details}>
@@ -68,10 +75,8 @@ export default function Profile() {
           </div>
 
           <button className={styles.logout_btn}>Log Out</button>
-
         </div>
 
-        {/* add role: host column if auth.role === host */}
       </div>
     </PageLayout>
   )

@@ -6,6 +6,8 @@ import LoginModal from '../Components/LoginModal'
 import NavUserModal from '../Components/NavUserModal'
 import styles from "../Styles/root.module.css"
 import {ChatCircleDots, List, House, MagnifyingGlass, User, BookmarkSimple, Book} from "phosphor-react"
+import Loader from '../Components/Loader'
+import Avatar from '../Components/Avatar'
 
 export default function RootLayout() {
 
@@ -33,7 +35,7 @@ export default function RootLayout() {
 
     // create custom loader later
     if (loadingCheck) {
-        return <p>...Loading...</p>
+        return <Loader type={"root"}/>
     }
 
     return (
@@ -59,20 +61,26 @@ export default function RootLayout() {
                     auth.isAuthorized &&
                     <NavLink to="/saved" className={({ isActive }) => (isActive ? styles.active : "")}>Saved</NavLink>
                 }
+                {
+                    auth.isAuthorized && auth.role === "host" &&
+                    <NavLink>Your Listings</NavLink>
+                }
             </nav>
 
             <div className={styles.user_links}>
 
                 {auth.isAuthorized
                     ? <>
-                        <NavLink className={styles.host_link}>Be a Host</NavLink>
+                        {auth.role === "participant" && <NavLink className={styles.host_link}>Be a Host</NavLink>}
                         <NavLink className={styles.chat_link}><ChatCircleDots/></NavLink>
                         <button 
                             className={styles.nav_username_btn}
                             onClick={() => setNavModalOn(!navModalOn)}
                         >
                             <List/>
-                            <img src={auth.pfp}/>
+                            {
+                                auth.pfp ? <img src={auth.pfp}/> : <Avatar name={auth.firstName} type={"root"}/>
+                            }
                   
                         </button>
 

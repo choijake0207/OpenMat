@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from "../../Styles/hostSetUp.module.css"
 import { Info } from 'phosphor-react'
+import Avatar from '../Avatar'
 
 export default function Step1({profile, handleNext, handlePrev}) {
   return (
@@ -11,7 +12,7 @@ export default function Step1({profile, handleNext, handlePrev}) {
             <p>If anything looks incorrect, please go to the profile page and update accordingly before proceeding</p>
           </div>
           <section className={styles.step_1_public_profile}>
-            <img src={profile.pfp} alt="profile_picture"/>
+            {profile.pfp ? <img src={profile.pfp} alt="profile_picture"/> : <Avatar name={profile.firstName} type={"form"}/>}
             <div className={styles.profile_info}>
               <label>Name
                 <p>{profile.firstName} {profile.lastName}</p>
