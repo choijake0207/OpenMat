@@ -44,9 +44,15 @@ export default function Location() {
                 setGeoCodeError({
                     status: false
                 })
-                setAddress(response.features[0].properties.formatted)
-                setResultsFound(true)
+                setAddress({
+                    city: response.features[0].properties.city,
+                    state: response.features[0].properties.state ?? null, // for international addresses
+                    street: response.features[0].properties.address_line1,
+                    zip: response.features[0].properties.postcode,
+                    country: response.features[0].properties.country
+                })
                 setCoords({lat: response.features[0].properties.lat, lon: response.features[0].properties.lon})
+                setResultsFound(true)
             }
         } catch (error) {
             console.error(error)
@@ -92,7 +98,7 @@ export default function Location() {
         {resultsFound &&
             <div className={styles.location_results}>
                 <label>Address Found</label>
-                <p>{address}</p>
+                <p>{address.street}, {address.city}, {address.state} {address.zip}, {address.country}</p>
             </div>
         }
 
