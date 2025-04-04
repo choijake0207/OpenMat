@@ -18,7 +18,7 @@ export default function Step3({handlePrev, hostProfile}) {
     const formData = new FormData()
     formData.append("title", data.title)
     formData.append("coordinates", JSON.stringify(data.coordinates))
-    formData.append("address", JSON.stringify(data.address))
+    formData.append("address", data.address)
     formData.append("type", data.type)
     Array.from(data.images).forEach(image => {
       formData.append("images", image)
